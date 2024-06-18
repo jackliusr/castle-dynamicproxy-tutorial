@@ -17,7 +17,7 @@ Most of the contents are from https://kozmic.net/dynamic-proxy-tutorial/. I adde
 
    Create proxy with parameters and interfaces.
 	```cs
-		CreateClassProxy(Type classToProxy,
+	CreateClassProxy(Type classToProxy,
 		  Type[] additionalInterfacesToProxy, 
 		  ProxyGenerationOptions options,
 		  object[] constructorArguments, 
