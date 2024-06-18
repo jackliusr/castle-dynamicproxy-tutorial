@@ -135,4 +135,22 @@ public class UnitTestSpec
         Assert.Equal(3, logsCount);
         Assert.Equal(0, freezeCount);
     }
+
+    [Fact]
+    public void Freezable_should_freeze_classes_with_nonVirtual_methods()
+    {
+        var pet = Freezable.MakeFreezable<WithNonVirtualMethod>();
+        pet.Name = "Rex";
+        pet.NonVirtualMethod();
+    }
+
+    [Fact]
+    public void Freezable_should_throw_when_trying_to_freeze_classes_with_nonVirtual_setters()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            Freezable.MakeFreezable<WithNonVirtualSetter>().NonVirtualProperty);
+        Assert.Equal(
+            "Property NonVirtualProperty is not virtual. Can't freeze classes with non-virtual properties.",
+            exception.Message);
+    }
 }

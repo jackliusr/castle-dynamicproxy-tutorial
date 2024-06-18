@@ -22,6 +22,22 @@ public class FreezableProxyGenerationHook : IProxyGenerationHook
     }
     public void NonVirtualMemberNotification(Type type, MemberInfo memberInfo)
     {
+        var method = memberInfo as MethodInfo;
+        if (method != null)
+        {
+            this.ValidateNotSetter(method);
+        }
+    }
+
+    private void ValidateNotSetter(MethodInfo method)
+    {
+        if (method.IsSpecialName && IsSetterName(method.Name))
+            throw new InvalidOperationException(
+                string.Format(
+                    "Property {0} is not virtual. Can't freeze classes with non-virtual properties.",
+                    method.Name.Substring("set_".Length)
+                    )
+                );
     }
 
     public void MethodsInspected()
@@ -30,6 +46,10 @@ public class FreezableProxyGenerationHook : IProxyGenerationHook
 
     public void NonProxyableMemberNotification(Type type, MemberInfo memberInfo)
     {
-        throw new NotImplementedException();
+        var method = memberInfo as MethodInfo;
+        if (method != null)
+        {
+            this.ValidateNotSetter(method);
+        }
     }
 }
