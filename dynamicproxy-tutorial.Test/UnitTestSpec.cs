@@ -153,4 +153,10 @@ public class UnitTestSpec
             "Property NonVirtualProperty is not virtual. Can't freeze classes with non-virtual properties.",
             exception.Message);
     }
+    [Fact]
+    public void Freezable_should_be_able_to_call_nonDefault_constructor()
+    {
+        var dog = Freezable.MakeFreezable<Dog>("Rex");
+        Assert.Equal("Rex", dog.Name);
+    }
 }

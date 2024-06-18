@@ -14,6 +14,16 @@ Most of the contents are from https://kozmic.net/dynamic-proxy-tutorial/. I adde
 
 
 1. Kinds of proxy objects
+
+   Create proxy with parameters and interfaces.
+	```cs
+		CreateClassProxy(Type classToProxy,
+		  Type[] additionalInterfacesToProxy, 
+		  ProxyGenerationOptions options,
+		  object[] constructorArguments, 
+		  params IInterceptor[] interceptors)
+	```
+ 
 1. Interface proxy without target
 1. Interface proxy with target
 1. Interface proxies with target interface

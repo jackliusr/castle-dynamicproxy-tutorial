@@ -34,15 +34,16 @@ public static class Freezable
         return freezable != null && freezable.IsFrozen;
     }
 
-    public static TFreezable MakeFreezable<TFreezable>() where TFreezable : class, new()
+    public static TFreezable MakeFreezable<TFreezable>(params object[] ctorArguments) where TFreezable : class
     {
         var freezableInterceptor = new FreezableInterceptor();
         var options = new ProxyGenerationOptions(new FreezableProxyGenerationHook())
         {
             Selector = _selector,
         };
-        var proxy = Generator.CreateClassProxy(typeof(TFreezable),
+        var proxy = Generator.CreateClassProxy(typeof(TFreezable), new Type[0],
             options,
+            ctorArguments,
             new CallLoggingInterceptor(), freezableInterceptor);
         return proxy as TFreezable;
     }
