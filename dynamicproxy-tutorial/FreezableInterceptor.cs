@@ -17,13 +17,16 @@ public class FreezableInterceptor : IInterceptor, IFreezable
 
     public bool IsFrozen { get; private set; }
 
+
+
+
+
     public void Intercept(IInvocation invocation)
     {
         if (IsFrozen && IsSetter(invocation.Method))
         {
             throw new ObjectFrozenException();
         }
-
         invocation.Proceed();
     }
 

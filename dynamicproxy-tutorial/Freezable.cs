@@ -38,9 +38,11 @@ public static class Freezable
     public static TFreezable MakeFreezable<TFreezable>() where TFreezable : class, new()
     {
         var freezableInterceptor = new FreezableInterceptor();
-        var proxy = Generator.CreateClassProxy<TFreezable>(
+        var options = new ProxyGenerationOptions(new FreezableProxyGenerationHook());
+        var proxy = Generator.CreateClassProxy(typeof(TFreezable),
+            options,
             new CallLoggingInterceptor(), freezableInterceptor);
         InstanceMap.Add(proxy, freezableInterceptor);
-        return proxy;
+        return proxy as TFreezable;
     }
 }

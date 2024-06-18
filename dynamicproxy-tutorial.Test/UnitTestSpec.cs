@@ -1,3 +1,4 @@
+using Castle.DynamicProxy;
 using dynamicproxy_tutorial;
 
 namespace dynamicproxy_tutorial.Test;
@@ -58,5 +59,34 @@ public class UnitTestSpec
     {
         var rex = new Pet();
         Assert.Throws<NotFreezableObjectException>(() => Freezable.Freeze(rex));
+    }
+    [Fact]
+    public void Freezable_should_not_intercept_normal_methods()
+    {
+        var pet = Freezable.MakeFreezable<Pet>();
+        var notUsed = pet.ToString(); //should not intercept
+        var interceptedMethodsCount = GetInterceptedMethodsCountFor(pet);
+        Assert.Equal(0, interceptedMethodsCount);
+    }
+
+    [Fact]
+    public void Freezable_should_intercept_property_setters()
+    {
+        var pet = Freezable.MakeFreezable<Pet>();
+        pet.Age = 5; //should intercept
+        var interceptedMethodsCount = GetInterceptedMethodsCountFor(pet);
+        Assert.Equal(1, interceptedMethodsCount);
+    }
+
+    private int GetInterceptedMethodsCountFor(object freezable)
+    {
+        Assert.True(Freezable.IsFreezable(freezable));
+
+        var hack = freezable as IProxyTargetAccessor;
+        Assert.NotNull(hack);
+        var loggingInterceptor = hack.GetInterceptors().
+                                     Where(i => i is CallLoggingInterceptor).
+                                     Single() as CallLoggingInterceptor;
+        return loggingInterceptor.Count;
     }
 }
