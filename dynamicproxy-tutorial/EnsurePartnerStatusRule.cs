@@ -1,4 +1,4 @@
-﻿namespace dynamicproxy_part01;
+﻿namespace dynamicproxy_tutorial;
 
 public class EnsurePartnerStatusRule : ISupportsInvalidation
 {

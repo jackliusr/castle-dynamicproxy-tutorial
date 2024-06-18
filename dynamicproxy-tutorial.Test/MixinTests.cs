@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 
-namespace dynamicproxy_part01.Test;
+namespace dynamicproxy_tutorial.Test;
 
 public class MixinTests
 {

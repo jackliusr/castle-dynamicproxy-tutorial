@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ThirtPartyLibrary;
 
-namespace dynamicproxy_part01.Test;
+namespace dynamicproxy_tutorial.Test;
 
 public class TimeFixTests
 {

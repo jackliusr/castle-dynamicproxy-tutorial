@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dynamicproxy_part01.Test;
+namespace dynamicproxy_tutorial.Test;
 public class MoreInterfaces
 {
     private static readonly ProxyGenerator generator = new ProxyGenerator();
