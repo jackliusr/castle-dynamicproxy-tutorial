@@ -65,7 +65,7 @@ public class UnitTestSpec
     {
         var pet = Freezable.MakeFreezable<Pet>();
         var notUsed = pet.ToString(); //should not intercept
-        var interceptedMethodsCount = GetInterceptedMethodsCountFor(pet);
+        var interceptedMethodsCount = GetInterceptedMethodsCountFor<FreezableInterceptor>(pet);
         Assert.Equal(0, interceptedMethodsCount);
     }
 
@@ -74,7 +74,7 @@ public class UnitTestSpec
     {
         var pet = Freezable.MakeFreezable<Pet>();
         pet.Age = 5; //should intercept
-        var interceptedMethodsCount = GetInterceptedMethodsCountFor(pet);
+        var interceptedMethodsCount = GetInterceptedMethodsCountFor<FreezableInterceptor>(pet);
         Assert.Equal(1, interceptedMethodsCount);
     }
     [Fact]
@@ -97,15 +97,42 @@ public class UnitTestSpec
         GC.Collect();
         Assert.False(petWeakReference.IsAlive, "Object should have been collected");
     }
-    private int GetInterceptedMethodsCountFor(object freezable)
+    private int GetInterceptedMethodsCountFor<TInterceptor>(object freezable)
+        where TInterceptor: IHasCount
     {
         Assert.True(Freezable.IsFreezable(freezable));
 
         var hack = freezable as IProxyTargetAccessor;
         Assert.NotNull(hack);
         var loggingInterceptor = hack.GetInterceptors().
-                                     Where(i => i is CallLoggingInterceptor).
-                                     Single() as CallLoggingInterceptor;
-        return loggingInterceptor.Count;
+                                     Where(i => i is TInterceptor).
+                                     Single();
+        return ((IHasCount)loggingInterceptor!).Count;
+    }
+    [Fact]
+    public void Freezable_should_log_getters_and_setters()
+    {
+        var pet = Freezable.MakeFreezable<Pet>();
+        pet.Age = 4;
+        var age = pet.Age;
+        int logsCount = GetInterceptedMethodsCountFor<CallLoggingInterceptor>(pet);
+        int freezeCount = GetInterceptedMethodsCountFor<FreezableInterceptor>(pet);
+        Assert.Equal(2, logsCount);
+        Assert.Equal(1, freezeCount);
+    }
+
+    [Fact]
+    public void Freezable_should_not_intercept_methods()
+    {
+
+        var pet = Freezable.MakeFreezable<Pet>();
+        pet.ToString();
+        int logsCount = GetInterceptedMethodsCountFor<CallLoggingInterceptor>(pet);
+        int freezeCount = GetInterceptedMethodsCountFor<FreezableInterceptor>(pet);
+
+        // base implementation of ToString calls each property getter, that we intercept
+        // so there will be 3 calls if method is not intercepter, otherwise 4.
+        Assert.Equal(3, logsCount);
+        Assert.Equal(0, freezeCount);
     }
 }

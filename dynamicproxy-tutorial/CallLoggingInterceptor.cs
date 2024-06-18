@@ -2,7 +2,7 @@
 
 namespace dynamicproxy_tutorial;
 
-public class CallLoggingInterceptor:  IInterceptor
+public class CallLoggingInterceptor:  IInterceptor,IHasCount
 {
     private int _indention;
     public CallLoggingInterceptor()

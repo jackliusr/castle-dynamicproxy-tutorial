@@ -4,7 +4,7 @@ namespace dynamicproxy_tutorial;
 
 public static class Freezable
 {
-
+    private static readonly IInterceptorSelector _selector = new FreezableInterceptorSelector();
     private static readonly ProxyGenerator Generator = new ProxyGenerator();
     public static bool IsFreezable(object obj)
     {
@@ -37,7 +37,10 @@ public static class Freezable
     public static TFreezable MakeFreezable<TFreezable>() where TFreezable : class, new()
     {
         var freezableInterceptor = new FreezableInterceptor();
-        var options = new ProxyGenerationOptions(new FreezableProxyGenerationHook());
+        var options = new ProxyGenerationOptions(new FreezableProxyGenerationHook())
+        {
+            Selector = _selector,
+        };
         var proxy = Generator.CreateClassProxy(typeof(TFreezable),
             options,
             new CallLoggingInterceptor(), freezableInterceptor);

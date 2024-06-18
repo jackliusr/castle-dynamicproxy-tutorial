@@ -7,9 +7,19 @@ public class FreezableProxyGenerationHook : IProxyGenerationHook
 {
     public bool ShouldInterceptMethod(Type type, MethodInfo memberInfo)
     {
-        return memberInfo.Name.StartsWith("set_", StringComparison.Ordinal);
+        return memberInfo.IsSpecialName &&
+           (IsSetterName(memberInfo.Name) ||
+             IsGetterName(memberInfo.Name));
+    }
+    private bool IsGetterName(string name)
+    {
+        return name.StartsWith("get_", StringComparison.Ordinal);
     }
 
+    private bool IsSetterName(string name)
+    {
+        return name.StartsWith("set_", StringComparison.Ordinal);
+    }
     public void NonVirtualMemberNotification(Type type, MemberInfo memberInfo)
     {
     }
