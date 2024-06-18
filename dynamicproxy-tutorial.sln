@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dynamicproxy-part01", "dynamicproxy-part01\dynamicproxy-part01.csproj", "{F9564EB8-0038-41B3-8ABE-0CE6F2FA93E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dynamicproxy-part01.Test", "dynamicproxy-part01.Test\dynamicproxy-part01.Test.csproj", "{9AC63503-6584-4A85-89B2-6B6A58ECB458}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9564EB8-0038-41B3-8ABE-0CE6F2FA93E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9564EB8-0038-41B3-8ABE-0CE6F2FA93E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9564EB8-0038-41B3-8ABE-0CE6F2FA93E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9564EB8-0038-41B3-8ABE-0CE6F2FA93E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AC63503-6584-4A85-89B2-6B6A58ECB458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC63503-6584-4A85-89B2-6B6A58ECB458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC63503-6584-4A85-89B2-6B6A58ECB458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC63503-6584-4A85-89B2-6B6A58ECB458}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11C8B272-B2C2-417B-8380-9041FDC1D52D}
+	EndGlobalSection
+EndGlobal
