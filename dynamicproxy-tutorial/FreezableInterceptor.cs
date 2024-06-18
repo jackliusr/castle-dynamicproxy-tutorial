@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dynamicproxy_part01;
+namespace dynamicproxy_tutorial;
 
 public class FreezableInterceptor : IInterceptor, IFreezable
 {

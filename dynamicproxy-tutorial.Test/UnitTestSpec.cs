@@ -1,6 +1,6 @@
-using dynamicproxy_part01;
+using dynamicproxy_tutorial;
 
-namespace dynamicproxy_part01.Test;
+namespace dynamicproxy_tutorial.Test;
 public class UnitTestSpec
 {
     [Fact]

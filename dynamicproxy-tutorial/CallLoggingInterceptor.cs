@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 
-namespace dynamicproxy_part01;
+namespace dynamicproxy_tutorial;
 
 public class CallLoggingInterceptor:  IInterceptor
 {

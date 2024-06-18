@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dynamicproxy_part01;
+namespace dynamicproxy_tutorial;
 
 public class Pet
 {

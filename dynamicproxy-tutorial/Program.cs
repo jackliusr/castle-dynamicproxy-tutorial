@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using dynamicproxy_part01;
+using dynamicproxy_tutorial;
 
 var rex = Freezable.MakeFreezable<Pet>();
 rex.Name = "Rex";

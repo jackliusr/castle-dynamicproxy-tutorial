@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace dynamicproxy_part01;
+namespace dynamicproxy_tutorial;
 
 [Serializable]
 public class NotFreezableObjectException : Exception
