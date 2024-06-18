@@ -1,38 +1,37 @@
 ﻿using Castle.DynamicProxy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dynamicproxy_tutorial;
 
 public static class Freezable
 {
-    private static readonly IDictionary<object, IFreezable> InstanceMap 
-        = new Dictionary<object, IFreezable>();
 
     private static readonly ProxyGenerator Generator = new ProxyGenerator();
     public static bool IsFreezable(object obj)
     {
-        return obj != null && InstanceMap.ContainsKey(obj);
+        return AsFreezable(obj) != null;
     }
-
+    private static IFreezable AsFreezable(object target)
+    {
+        if (target == null)
+            return null;
+        var hack = target as IProxyTargetAccessor;
+        if (hack == null)
+            return null;
+        return hack.GetInterceptors().FirstOrDefault(i => i is FreezableInterceptor) as IFreezable;
+    }
 
     public static void Freeze(object freezable)
     {
-        if (!IsFreezable(freezable))
-        {
+        var interceptor = AsFreezable(freezable);
+        if (interceptor == null)
             throw new NotFreezableObjectException(freezable);
-        }
-
-        InstanceMap[freezable].Freeze();
+        interceptor.Freeze();
     }
 
-    public static bool IsFrozen(object freezable)
+    public static bool IsFrozen(object obj)
     {
-        return IsFreezable(freezable) && InstanceMap[freezable].IsFrozen;
+        var freezable = AsFreezable(obj);
+        return freezable != null && freezable.IsFrozen;
     }
 
     public static TFreezable MakeFreezable<TFreezable>() where TFreezable : class, new()
@@ -42,7 +41,6 @@ public static class Freezable
         var proxy = Generator.CreateClassProxy(typeof(TFreezable),
             options,
             new CallLoggingInterceptor(), freezableInterceptor);
-        InstanceMap.Add(proxy, freezableInterceptor);
         return proxy as TFreezable;
     }
 }

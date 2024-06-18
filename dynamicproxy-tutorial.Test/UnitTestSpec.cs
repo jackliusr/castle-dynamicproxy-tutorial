@@ -77,7 +77,26 @@ public class UnitTestSpec
         var interceptedMethodsCount = GetInterceptedMethodsCountFor(pet);
         Assert.Equal(1, interceptedMethodsCount);
     }
-
+    [Fact]
+    public void DynProxyGetTarget_should_return_proxy_itself()
+    {
+        var pet = Freezable.MakeFreezable<Pet>();
+        var hack = pet as IProxyTargetAccessor;
+        Assert.NotNull(hack);
+        Assert.Same(pet, hack.DynProxyGetTarget());
+    }
+    [Fact]
+    public void Freezable_should_not_hold_any_reference_to_created_objects()
+    {
+        // https://stackoverflow.com/a/70074940/1101691
+        var pet = Freezable.MakeFreezable<Pet>();
+        var petWeakReference = new WeakReference(pet, false);
+        pet = null;
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+        Assert.False(petWeakReference.IsAlive, "Object should have been collected");
+    }
     private int GetInterceptedMethodsCountFor(object freezable)
     {
         Assert.True(Freezable.IsFreezable(freezable));
